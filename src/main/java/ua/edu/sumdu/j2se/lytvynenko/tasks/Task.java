@@ -65,7 +65,7 @@ public class Task {
      * If the task is repeated, the method returns the start time of the repetition.
      */
     public int getTime() {
-        return (this.repeat ? start : time);
+        return (repeat ? start : time);
     }
 
     /**
@@ -74,8 +74,8 @@ public class Task {
      */
     public void setTime(int time) {
         this.time = time;
-        if (this.repeat) {
-            this.repeat = false;
+        if (repeat) {
+            repeat = false;
         }
     }
 
@@ -84,7 +84,7 @@ public class Task {
      * If the task is not repeated, the method returns the execution time.
      */
     public int getStartTime() {
-        return (this.repeat ? start : time);
+        return (repeat ? start : time);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Task {
      * If the task is not repeated, the method returns the execution time.
      */
     public int getEndTime() {
-        return (this.repeat ? end : time);
+        return (repeat ? end : time);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Task {
      * If the task is not repeated, the method returns 0.
      */
     public int getRepeatInterval() {
-        return (this.repeat ? interval : 0);
+        return (repeat ? interval : 0);
     }
 
     /**
@@ -111,8 +111,8 @@ public class Task {
         this.start = start;
         this.end = end;
         this.interval = interval;
-        if (!this.repeat) {
-            this.repeat = true;
+        if (!repeat) {
+            repeat = true;
         }
     }
 
