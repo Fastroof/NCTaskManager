@@ -2,21 +2,26 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
 public class ArrayTaskList {
 
-    private Task[] tasks;
-    private int size;
+    private static final int increaseInterval = 5;
+    private Task[] tasks = new Task[increaseInterval];
+    private int size = 0;
 
     /**
      * Add the specified task to the list.
      * @param task specified task
      */
     public void add(Task task) {
-        size++;
-        Task[] tempArray = new Task[size];
-        for (int i = 0; i < size - 1; i++) {
-            tempArray[i] = tasks[i];
+        if (size < tasks.length) {
+            tasks[size] = task;
+        } else {
+            Task[] tempArray = new Task[size + increaseInterval];
+            for (int i = 0; i < size; i++) {
+                tempArray[i] = tasks[i];
+            }
+            tempArray[size] = task;
+            tasks = tempArray;
         }
-        tempArray[size - 1] = task;
-        tasks = tempArray;
+        size++;
     }
 
     /**
@@ -26,21 +31,26 @@ public class ArrayTaskList {
     public boolean remove(Task task) {
         int index = -1;
         for (int i = 0; i < size; i++) {
-            if (tasks[i] == task) {
+            if (tasks[i].equals(task)) {
                 index = i;
                 break;
             }
         }
         if (index != -1) {
-            size--;
-            Task[] tempArray = new Task[size];
+            Task[] tempArray;
+            if (size - 1 == tasks.length - increaseInterval) {
+                tempArray = new Task[size - 1];
+            } else {
+                tempArray = new Task[tasks.length];
+            }
             for (int i = 0; i < index; i++) {
                 tempArray[i] = tasks[i];
             }
-            for (int i = index + 1; i < size + 1; i++) {
+            for (int i = index + 1; i < size; i++) {
                 tempArray[i - 1] = tasks[i];
             }
             tasks = tempArray;
+            size--;
             return true;
         } else {
             return false;
@@ -61,22 +71,11 @@ public class ArrayTaskList {
      */
     public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList result = new ArrayTaskList();
-
-        for (Task task: tasks) {
-            if (task.isActive()) {
-                if (task.isRepeated()) {
-                    if ((task.nextTimeAfter(from) >= from) && (task.nextTimeAfter(from) <= to)) {
-                        result.add(task);
-                    }
-                } else {
-                    if ((task.getTime() > from) && (task.getTime() < to)) {
-                        result.add(task);
-                    }
-                }
+        for (int i = 0; i < size; i++) {
+            if ((tasks[i].nextTimeAfter(from) >= from) && (tasks[i].nextTimeAfter(from) <= to)) {
+                result.add(tasks[i]);
             }
         }
-
         return result;
     }
-
 }
