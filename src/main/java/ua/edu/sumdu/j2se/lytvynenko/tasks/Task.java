@@ -18,6 +18,9 @@ public class Task {
      * @param time task execution time
      */
     public Task(String title, int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException();
+        }
         this.title = title;
         this.time = time;
         this.active = false;
@@ -36,6 +39,9 @@ public class Task {
      * @param interval repeat interval
      */
     public Task(String title, int start, int end, int interval) {
+        if ((start < 0) || (end <= start) || (interval <= 0)) {
+            throw new IllegalArgumentException();
+        }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -73,6 +79,9 @@ public class Task {
      * If the task is repeated, it becomes non-repetitive.
      */
     public void setTime(int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException();
+        }
         this.time = time;
         if (repeat) {
             repeat = false;
@@ -108,6 +117,9 @@ public class Task {
      * If the task is not repeated, it becomes repeated.
      */
     public void setTime(int start, int end, int interval) {
+        if ((start < 0) || (end <= start) || (interval <= 0)) {
+            throw new IllegalArgumentException();
+        }
         this.start = start;
         this.end = end;
         this.interval = interval;

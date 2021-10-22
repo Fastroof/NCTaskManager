@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class ArrayTaskList {
+public class LinkedTaskList {
 
     private static final int increaseInterval = 5;
     private Task[] tasks = new Task[increaseInterval];
@@ -75,8 +75,8 @@ public class ArrayTaskList {
      * Return a list of tasks that are scheduled to run
      * at least once after time from and no later than to.
      */
-    public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList result = new ArrayTaskList();
+    public LinkedTaskList incoming(int from, int to) {
+        LinkedTaskList result = new LinkedTaskList();
         for (int i = 0; i < size; i++) {
             if ((tasks[i].nextTimeAfter(from) >= from) && (tasks[i].nextTimeAfter(from) <= to)) {
                 result.add(tasks[i]);
