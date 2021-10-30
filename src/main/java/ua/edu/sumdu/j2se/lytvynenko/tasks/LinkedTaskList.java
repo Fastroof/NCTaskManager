@@ -2,8 +2,8 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
 public class LinkedTaskList {
 
-    private static final int increaseInterval = 5;
-    private Task[] tasks = new Task[increaseInterval];
+    private Node head;
+    private Node tail;
     private int size = 0;
 
     /**
@@ -14,16 +14,15 @@ public class LinkedTaskList {
         if (task == null) {
             throw new IllegalArgumentException();
         }
-        if (size < tasks.length) {
-            tasks[size] = task;
+        Node node = new Node();
+        node.task = task;
+        if (size == 0) {
+            head = node;
         } else {
-            Task[] tempArray = new Task[size + increaseInterval];
-            for (int i = 0; i < size; i++) {
-                tempArray[i] = tasks[i];
-            }
-            tempArray[size] = task;
-            tasks = tempArray;
+            tail.next = node;
+            node.prev = tail;
         }
+        tail = node;
         size++;
     }
 
@@ -32,32 +31,39 @@ public class LinkedTaskList {
      * If there are several such tasks in the list, the method deletes the first one.
      */
     public boolean remove(Task task) {
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (tasks[i].equals(task)) {
-                index = i;
-                break;
-            }
-        }
-        if (index != -1) {
-            Task[] tempArray;
-            if (size - 1 == tasks.length - increaseInterval) {
-                tempArray = new Task[size - 1];
+        boolean result = false;
+
+        if ((size == 1) && (head.task.equals(task))) {
+            head = null;
+            tail = null;
+            result = true;
+        } else if (size > 1) {
+            if (head.task.equals(task)) {
+                head = head.next;
+                head.prev = null;
+                result = true;
+            } else if (tail.task.equals(task)) {
+                tail = tail.prev;
+                tail.next = null;
+                result = true;
             } else {
-                tempArray = new Task[tasks.length];
+                Node temp = head;
+                for (int i = 0; i < size - 2; i++) {
+                    if (temp.next.task.equals(task)) {
+                        temp.next = temp.next.next;
+                        temp.next.prev = temp.next.prev.prev;
+                        result = true;
+                        break;
+                    }
+                    temp = temp.next;
+                }
             }
-            for (int i = 0; i < index; i++) {
-                tempArray[i] = tasks[i];
-            }
-            for (int i = index + 1; i < size; i++) {
-                tempArray[i - 1] = tasks[i];
-            }
-            tasks = tempArray;
-            size--;
-            return true;
-        } else {
-            return false;
         }
+
+        if (result) {
+            size--;
+        }
+        return result;
     }
 
     public int size() {
@@ -65,10 +71,21 @@ public class LinkedTaskList {
     }
 
     public Task getTask(int index) {
-        if (index >= tasks.length) {
+        if (index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        return tasks[index];
+        Node temp = head;
+        if (index + 1 <= size/2) {
+            for (int i = 0; i < index; i++) {
+                temp = temp.next;
+            }
+        } else {
+            temp = tail;
+            for (int i = size - 1; i > index; i--) {
+                temp = temp.prev;
+            }
+        }
+        return temp.task;
     }
 
     /**
@@ -77,10 +94,12 @@ public class LinkedTaskList {
      */
     public LinkedTaskList incoming(int from, int to) {
         LinkedTaskList result = new LinkedTaskList();
+        Node temp = head;
         for (int i = 0; i < size; i++) {
-            if ((tasks[i].nextTimeAfter(from) >= from) && (tasks[i].nextTimeAfter(from) <= to)) {
-                result.add(tasks[i]);
+            if ((temp.task.nextTimeAfter(from) >= from) && (temp.task.nextTimeAfter(from) <= to)) {
+                result.add(temp.task);
             }
+            temp = temp.next;
         }
         return result;
     }
