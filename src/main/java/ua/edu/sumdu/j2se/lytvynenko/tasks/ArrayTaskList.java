@@ -11,6 +11,9 @@ public class ArrayTaskList {
      * @param task specified task
      */
     public void add(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException();
+        }
         if (size < tasks.length) {
             tasks[size] = task;
         } else {
@@ -62,6 +65,9 @@ public class ArrayTaskList {
     }
 
     public Task getTask(int index) {
+        if (index >= tasks.length) {
+            throw new IndexOutOfBoundsException();
+        }
         return tasks[index];
     }
 
