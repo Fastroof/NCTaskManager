@@ -91,21 +91,4 @@ public class LinkedTaskList extends AbstractTaskList {
         }
         return temp.task;
     }
-
-    /**
-     * Return a list of tasks that are scheduled to run
-     * at least once after time from and no later than to.
-     */
-    @Override
-    public LinkedTaskList incoming(int from, int to) {
-        LinkedTaskList result = new LinkedTaskList();
-        Node temp = head;
-        for (int i = 0; i < size; i++) {
-            if ((temp.task.nextTimeAfter(from) >= from) && (temp.task.nextTimeAfter(from) <= to)) {
-                result.add(temp.task);
-            }
-            temp = temp.next;
-        }
-        return result;
-    }
 }

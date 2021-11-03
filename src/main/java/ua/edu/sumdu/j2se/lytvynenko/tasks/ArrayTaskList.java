@@ -74,19 +74,4 @@ public class ArrayTaskList extends AbstractTaskList {
         }
         return tasks[index];
     }
-
-    /**
-     * Return a list of tasks that are scheduled to run
-     * at least once after time from and no later than to.
-     */
-    @Override
-    public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList result = new ArrayTaskList();
-        for (int i = 0; i < size; i++) {
-            if ((tasks[i].nextTimeAfter(from) >= from) && (tasks[i].nextTimeAfter(from) <= to)) {
-                result.add(tasks[i]);
-            }
-        }
-        return result;
-    }
 }
