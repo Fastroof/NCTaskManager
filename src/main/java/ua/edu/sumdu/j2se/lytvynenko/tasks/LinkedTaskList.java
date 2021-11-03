@@ -91,4 +91,9 @@ public class LinkedTaskList extends AbstractTaskList {
         }
         return temp.task;
     }
+
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.LINKED;
+    }
 }

@@ -74,4 +74,9 @@ public class ArrayTaskList extends AbstractTaskList {
         }
         return tasks[index];
     }
+
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.ARRAY;
+    }
 }
