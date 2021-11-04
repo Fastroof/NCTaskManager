@@ -1,15 +1,16 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
 
     private static final int increaseInterval = 5;
     private Task[] tasks = new Task[increaseInterval];
-    private int size = 0;
+    private int size;
 
     /**
      * Add the specified task to the list.
      * @param task specified task
      */
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException();
@@ -31,6 +32,7 @@ public class ArrayTaskList {
      * Remove a task from the list and returns the truth if such a task was in the list.
      * If there are several such tasks in the list, the method deletes the first one.
      */
+    @Override
     public boolean remove(Task task) {
         int index = -1;
         for (int i = 0; i < size; i++) {
@@ -60,10 +62,12 @@ public class ArrayTaskList {
         }
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public Task getTask(int index) {
         if (index >= tasks.length) {
             throw new IndexOutOfBoundsException();
@@ -71,17 +75,8 @@ public class ArrayTaskList {
         return tasks[index];
     }
 
-    /**
-     * Return a list of tasks that are scheduled to run
-     * at least once after time from and no later than to.
-     */
-    public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList result = new ArrayTaskList();
-        for (int i = 0; i < size; i++) {
-            if ((tasks[i].nextTimeAfter(from) >= from) && (tasks[i].nextTimeAfter(from) <= to)) {
-                result.add(tasks[i]);
-            }
-        }
-        return result;
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.ARRAY;
     }
 }

@@ -7,6 +7,7 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             list.add(new Task(String.valueOf(i),i));
         }
+        System.out.println(list.incoming(1,3).getType());
         System.out.println(list.getTask(4).getTitle());
         System.out.println(list.getTask(7).getTitle());
     }

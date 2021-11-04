@@ -1,15 +1,16 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
 
     private Node head;
     private Node tail;
-    private int size = 0;
+    private int size;
 
     /**
      * Add the specified task to the list.
      * @param task specified task
      */
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException();
@@ -30,6 +31,7 @@ public class LinkedTaskList {
      * Remove a task from the list and returns the truth if such a task was in the list.
      * If there are several such tasks in the list, the method deletes the first one.
      */
+    @Override
     public boolean remove(Task task) {
         boolean result = false;
 
@@ -66,10 +68,12 @@ public class LinkedTaskList {
         return result;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public Task getTask(int index) {
         if (index >= size) {
             throw new IndexOutOfBoundsException();
@@ -88,19 +92,8 @@ public class LinkedTaskList {
         return temp.task;
     }
 
-    /**
-     * Return a list of tasks that are scheduled to run
-     * at least once after time from and no later than to.
-     */
-    public LinkedTaskList incoming(int from, int to) {
-        LinkedTaskList result = new LinkedTaskList();
-        Node temp = head;
-        for (int i = 0; i < size; i++) {
-            if ((temp.task.nextTimeAfter(from) >= from) && (temp.task.nextTimeAfter(from) <= to)) {
-                result.add(temp.task);
-            }
-            temp = temp.next;
-        }
-        return result;
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.LINKED;
     }
 }
