@@ -4,7 +4,7 @@ public class ArrayTaskList extends AbstractTaskList {
 
     private static final int increaseInterval = 5;
     private Task[] tasks = new Task[increaseInterval];
-    private int size;
+    private int size = 0;
 
     /**
      * Add the specified task to the list.
@@ -69,7 +69,7 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public Task getTask(int index) {
-        if (index >= tasks.length) {
+        if ((index >= size) && (index < 0)) {
             throw new IndexOutOfBoundsException();
         }
         return tasks[index];

@@ -4,7 +4,7 @@ public class LinkedTaskList extends AbstractTaskList {
 
     private Node head;
     private Node tail;
-    private int size;
+    private int size = 0;
 
     /**
      * Add the specified task to the list.
@@ -75,7 +75,7 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public Task getTask(int index) {
-        if (index >= size) {
+        if ((index >= size) && (index < 0)) {
             throw new IndexOutOfBoundsException();
         }
         Node temp = head;
