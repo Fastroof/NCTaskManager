@@ -19,9 +19,7 @@ public class ArrayTaskList extends AbstractTaskList {
             tasks[size] = task;
         } else {
             Task[] tempArray = new Task[size + increaseInterval];
-            for (int i = 0; i < size; i++) {
-                tempArray[i] = tasks[i];
-            }
+            System.arraycopy(tasks, 0, tempArray, 0, size);
             tempArray[size] = task;
             tasks = tempArray;
         }
@@ -48,12 +46,9 @@ public class ArrayTaskList extends AbstractTaskList {
             } else {
                 tempArray = new Task[tasks.length];
             }
-            for (int i = 0; i < index; i++) {
-                tempArray[i] = tasks[i];
-            }
-            for (int i = index + 1; i < size; i++) {
-                tempArray[i - 1] = tasks[i];
-            }
+            System.arraycopy(tasks, 0, tempArray, 0, index);
+            if (size - (index + 1) >= 0)
+                System.arraycopy(tasks, index + 1, tempArray, index + 1 - 1, size - (index + 1));
             tasks = tempArray;
             size--;
             return true;
