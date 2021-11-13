@@ -1,6 +1,9 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class LinkedTaskList extends AbstractTaskList {
+import java.util.Arrays;
+import java.util.Objects;
+
+public class LinkedTaskList extends AbstractTaskList implements Cloneable {
 
     private Node head;
     private Node tail;
@@ -95,5 +98,41 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public ListTypes.types getType() {
         return ListTypes.types.LINKED;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LinkedTaskList list = (LinkedTaskList) o;
+        return Arrays.equals(toArray(), list.toArray());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(toArray()), size);
+    }
+
+    @Override
+    public String toString() {
+        return "LinkedTaskList{" +
+                "\n\tsize=" + size +
+                "\n\ttasks=" + Arrays.toString(toArray()) +
+                '}';
+    }
+
+    @Override
+    public LinkedTaskList clone() {
+        try {
+            LinkedTaskList clone = (LinkedTaskList) super.clone();
+            clone.head = head.clone();
+            clone.tail = tail.clone();
+            for (Node node = clone.head; node.next!=null; node = node.next) {
+                node.next = node.next.clone();
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

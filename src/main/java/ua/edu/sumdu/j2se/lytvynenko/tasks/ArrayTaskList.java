@@ -1,6 +1,9 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class ArrayTaskList extends AbstractTaskList {
+import java.util.Arrays;
+import java.util.Objects;
+
+public class ArrayTaskList extends AbstractTaskList implements Cloneable {
 
     private static final int increaseInterval = 5;
     private Task[] tasks = new Task[increaseInterval];
@@ -73,5 +76,44 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public ListTypes.types getType() {
         return ListTypes.types.ARRAY;
+    }
+
+    @Override
+    public Task[] toArray() {
+        return tasks;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArrayTaskList tasks1 = (ArrayTaskList) o;
+        return Arrays.equals(tasks, tasks1.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size);
+        result = 31 * result + Arrays.hashCode(tasks);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayTaskList{" +
+                "\n\tsize=" + size +
+                "\n\ttasks=" + Arrays.toString(tasks) +
+                '}';
+    }
+
+    @Override
+    public ArrayTaskList clone() {
+        try {
+            ArrayTaskList clone = (ArrayTaskList) super.clone();
+            clone.tasks = tasks.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
