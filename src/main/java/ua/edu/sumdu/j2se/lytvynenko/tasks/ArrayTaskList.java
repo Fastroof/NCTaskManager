@@ -80,7 +80,9 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
 
     @Override
     public Task[] toArray() {
-        return tasks;
+        Task[] result = new Task[size];
+        System.arraycopy(tasks, 0, result, 0, size);
+        return result;
     }
 
     @Override

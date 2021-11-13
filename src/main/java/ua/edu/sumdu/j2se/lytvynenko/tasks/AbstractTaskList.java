@@ -2,7 +2,7 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
 import java.util.Iterator;
 
-public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
+public abstract class AbstractTaskList implements Iterable<Task> {
 
     @Override
     public Iterator<Task> iterator() {
