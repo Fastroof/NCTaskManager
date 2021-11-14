@@ -1,14 +1,16 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
-public class Task {
+import java.util.Objects;
+
+public class Task implements Cloneable {
 
     private String title;
     private int time;
     private int start;
     private int end;
     private int interval;
-    private boolean active;
-    private boolean repeat;
+    private boolean active = false;
+    private boolean repeat = false;
 
     /**
      * A constructor that constructs an inactive task
@@ -23,8 +25,6 @@ public class Task {
         }
         this.title = title;
         this.time = time;
-        this.active = false;
-        this.repeat = false;
     }
 
 
@@ -46,8 +46,7 @@ public class Task {
         this.start = start;
         this.end = end;
         this.interval = interval;
-        this.active = false;
-        this.repeat = true;
+        repeat = true;
     }
 
     public String getTitle() {
@@ -161,4 +160,38 @@ public class Task {
         return nextTimeAfter;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return time == task.time && start == task.start && end == task.end && interval == task.interval && active == task.active && repeat == task.repeat && Objects.equals(title, task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, time, start, end, interval, active, repeat);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", time=" + time +
+                ", start=" + start +
+                ", end=" + end +
+                ", interval=" + interval +
+                ", active=" + active +
+                ", repeat=" + repeat +
+                '}';
+    }
+
+    @Override
+    public Task clone() {
+        try {
+            return (Task) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
