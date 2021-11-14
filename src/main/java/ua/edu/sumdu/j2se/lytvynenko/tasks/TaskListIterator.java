@@ -7,17 +7,15 @@ import java.util.Objects;
 public class TaskListIterator implements Iterator<Task> {
 
     private final AbstractTaskList tasks;
-    private final int size;
     private int nextIndex = 0;
 
     public TaskListIterator(AbstractTaskList taskList) {
-        size = taskList.size();
         tasks = taskList;
     }
 
     @Override
     public boolean hasNext() {
-        return nextIndex < size;
+        return nextIndex < tasks.size();
     }
 
     @Override
@@ -40,20 +38,19 @@ public class TaskListIterator implements Iterator<Task> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskListIterator that = (TaskListIterator) o;
-        return size == that.size && nextIndex == that.nextIndex && Objects.equals(tasks, that.tasks);
+        return nextIndex == that.nextIndex && Objects.equals(tasks, that.tasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tasks, size, nextIndex);
+        return Objects.hash(tasks, nextIndex);
     }
 
     @Override
     public String toString() {
         return "TaskListIterator{" +
-                "size=" + size +
+                "tasks=" + tasks +
                 ", nextIndex=" + nextIndex +
-                ", tasks=" + tasks +
                 '}';
     }
 }
