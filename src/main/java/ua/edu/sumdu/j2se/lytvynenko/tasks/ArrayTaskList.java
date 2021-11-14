@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class ArrayTaskList extends AbstractTaskList implements Cloneable {
 
@@ -77,6 +78,12 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     public ListTypes.types getType() {
         return ListTypes.types.ARRAY;
     }
+
+    @Override
+    public Stream<Task> getStream() {
+        return super.getStream();
+    }
+
 
     @Override
     public Task[] toArray() {

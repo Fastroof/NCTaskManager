@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList implements Cloneable {
 
@@ -98,6 +99,11 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
     @Override
     public ListTypes.types getType() {
         return ListTypes.types.LINKED;
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        return super.getStream();
     }
 
     @Override
