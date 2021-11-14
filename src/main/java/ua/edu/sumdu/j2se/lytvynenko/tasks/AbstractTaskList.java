@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task> {
 
@@ -15,6 +17,10 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     public abstract int size();
     public abstract ListTypes.types getType();
 
+    public Stream<Task> getStream() {
+        return Arrays.stream(toArray());
+    }
+
     /**
      * Converts a list to an array. Task links remain unchanged.
      * @return array of tasks
@@ -27,13 +33,10 @@ public abstract class AbstractTaskList implements Iterable<Task> {
         return result;
     }
 
-    public AbstractTaskList incoming(int from, int to) {
+    public final AbstractTaskList incoming(int from, int to) {
         AbstractTaskList result = TaskListFactory.createTaskList(getType());
-        for (int i = 0; i < this.size(); i++) {
-            if ((this.getTask(i).nextTimeAfter(from) >= from) && (this.getTask(i).nextTimeAfter(from) <= to)) {
-                result.add(this.getTask(i));
-            }
-        }
+        Stream<Task> taskStream = getStream();
+        taskStream.filter(task -> task.nextTimeAfter(from) >= from && task.nextTimeAfter(from) <= to).forEach(result::add);
         return result;
     }
 
