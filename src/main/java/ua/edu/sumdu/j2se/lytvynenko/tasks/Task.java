@@ -1,13 +1,14 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task implements Cloneable {
 
     private String title;
-    private int time;
-    private int start;
-    private int end;
+    private LocalDateTime time;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private int interval;
     private boolean active = false;
     private boolean repeat = false;
@@ -19,8 +20,8 @@ public class Task implements Cloneable {
      * @param title task name
      * @param time task execution time
      */
-    public Task(String title, int time) {
-        if (time < 0) {
+    public Task(String title, LocalDateTime time) {
+        if (title == null || time == null) {
             throw new IllegalArgumentException();
         }
         this.title = title;
@@ -38,8 +39,8 @@ public class Task implements Cloneable {
      * @param end end time
      * @param interval repeat interval
      */
-    public Task(String title, int start, int end, int interval) {
-        if ((start < 0) || (end <= start) || (interval <= 0)) {
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
+        if (title == null || start == null || end == null || !end.isAfter(start) || interval <= 0) {
             throw new IllegalArgumentException();
         }
         this.title = title;
@@ -69,7 +70,7 @@ public class Task implements Cloneable {
      * Get the execution time of a task that is not repeated.
      * If the task is repeated, the method returns the start time of the repetition.
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         return (repeat ? start : time);
     }
 
@@ -77,8 +78,8 @@ public class Task implements Cloneable {
      * Set the execution time of a task that is not repeated.
      * If the task is repeated, it becomes non-repetitive.
      */
-    public void setTime(int time) {
-        if (time < 0) {
+    public void setTime(LocalDateTime time) {
+        if (time == null) {
             throw new IllegalArgumentException();
         }
         this.time = time;
@@ -91,7 +92,7 @@ public class Task implements Cloneable {
      * Get the start time of a task that is repeated.
      * If the task is not repeated, the method returns the execution time.
      */
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         return (repeat ? start : time);
     }
 
@@ -99,7 +100,7 @@ public class Task implements Cloneable {
      * Get the end time of a task that is repeated.
      * If the task is not repeated, the method returns the execution time.
      */
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         return (repeat ? end : time);
     }
 
@@ -115,8 +116,8 @@ public class Task implements Cloneable {
      * Set the start, end, repeat interval time of a task that is repeated.
      * If the task is not repeated, it becomes repeated.
      */
-    public void setTime(int start, int end, int interval) {
-        if ((start < 0) || (end <= start) || (interval <= 0)) {
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        if (start == null || end == null || !end.isAfter(start) || interval <= 0) {
             throw new IllegalArgumentException();
         }
         this.start = start;
@@ -133,25 +134,28 @@ public class Task implements Cloneable {
 
     /**
      * Return the time of the next execution of the task after the current time.
-     * If after the specified time the task isn't executed, the method return -1.
+     * If after the specified time the task isn't executed, the method return null.
      */
-    public int nextTimeAfter(int current) {
-        int nextTimeAfter = -1;
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        if (current == null) {
+            throw new IllegalArgumentException();
+        }
+        LocalDateTime nextTimeAfter = null;
 
         if (active) {
             if (repeat) {
-                if (current < start) {
+                if (start.isAfter(current)) {
                     nextTimeAfter = start;
-                } else if (current < end) {
-                    for (int i = start + interval; i < end; i += interval) {
-                        if (current < i) {
+                } else if (end.isAfter(current)) {
+                    for (LocalDateTime i = start.plusSeconds(interval); !end.isBefore(i); i = i.plusSeconds(interval)) {
+                        if (current.isBefore(i)) {
                             nextTimeAfter = i;
                             break;
                         }
                     }
                 }
             } else {
-                if (current < time) {
+                if (time.isAfter(current)) {
                     nextTimeAfter = time;
                 }
             }

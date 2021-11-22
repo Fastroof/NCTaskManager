@@ -33,13 +33,6 @@ public abstract class AbstractTaskList implements Iterable<Task> {
         return result;
     }
 
-    public final AbstractTaskList incoming(int from, int to) {
-        AbstractTaskList result = TaskListFactory.createTaskList(getType());
-        Stream<Task> taskStream = getStream();
-        taskStream.filter(task -> task.nextTimeAfter(from) >= from && task.nextTimeAfter(from) <= to).forEach(result::add);
-        return result;
-    }
-
     @Override
     public String toString() {
         return "AbstractTaskList{}";
