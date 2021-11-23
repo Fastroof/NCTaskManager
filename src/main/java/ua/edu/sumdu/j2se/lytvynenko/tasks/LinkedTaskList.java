@@ -1,10 +1,11 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class LinkedTaskList extends AbstractTaskList implements Cloneable {
+public class LinkedTaskList extends AbstractTaskList implements Cloneable, Serializable {
 
     private Node head;
     private Node tail;

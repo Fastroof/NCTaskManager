@@ -1,10 +1,11 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class ArrayTaskList extends AbstractTaskList implements Cloneable {
+public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serializable {
 
     private static final int increaseInterval = 5;
     private Task[] tasks = new Task[increaseInterval];
