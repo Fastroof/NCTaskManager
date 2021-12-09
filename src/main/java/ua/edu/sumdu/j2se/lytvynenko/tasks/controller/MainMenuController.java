@@ -3,21 +3,15 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.*;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -25,27 +19,15 @@ import java.util.*;
 
 public class MainMenuController implements Initializable {
 
+    private static final JavaFXFunctions fxFunctions = new JavaFXFunctions();
+
     public void switchToCalendar(ActionEvent event) throws IOException {
-        URL sceneUrl = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/view/calendar.fxml")
-                .toURI().toURL();
-        Parent root = FXMLLoader.load(sceneUrl);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setTitle("NCTaskManager:Calendar");
-        stage.setScene(scene);
-        stage.show();
+        fxFunctions.switchTo("calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                "NCTaskManager:Calendar", true);
     }
 
     public void switchToTaskCreator() throws IOException {
-        URL sceneUrl = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/view/task_creator.fxml")
-                .toURI().toURL();
-        Parent root = FXMLLoader.load(sceneUrl);
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("NCTaskManager:TaskCreator");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        fxFunctions.switchTo("task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskCreator", false);
         if (NCTaskManagerModel.getTasks().size() > allTasksTableView.getItems().size()) {
             addTaskToTableView();
         }
@@ -53,18 +35,9 @@ public class MainMenuController implements Initializable {
 
     private void switchToTaskEditor(Task item) throws IOException {
         NCTaskManagerModel.setEditedTask(item);
-        System.out.println(item.toString());
-        URL sceneUrl = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/view/task_editor.fxml")
-                .toURI().toURL();
-        Parent root = FXMLLoader.load(sceneUrl);
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("NCTaskManager:TaskEditor");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
-
-        // TODO
+        fxFunctions.switchTo("task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskEditor", false);
+        NCTaskManagerModel.setEditedTask(null);
+        reloadTableView();
     }
 
     @FXML private TableView<Task> allTasksTableView;
@@ -113,7 +86,7 @@ public class MainMenuController implements Initializable {
                     }
                 }
             });
-            return row ;
+            return row;
         });
         allTasksTableView.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.DELETE)) {

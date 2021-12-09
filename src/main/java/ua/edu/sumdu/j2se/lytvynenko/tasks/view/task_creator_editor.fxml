@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.edu.sumdu.j2se.lytvynenko.tasks.controller.TaskEditorController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.edu.sumdu.j2se.lytvynenko.tasks.controller.TaskCreatorEditorController">
    <children>
       <VBox layoutX="12.0" layoutY="12.0" prefHeight="325.0" prefWidth="340.0">
          <children>
@@ -77,6 +77,6 @@
             <CheckBox fx:id="setActiveCheckBox" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" text="Active" />
          </children>
       </VBox>
-      <Button layoutX="115.0" layoutY="337.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="39.0" prefWidth="134.0" text="Save changes" />
+      <Button fx:id="eventButton" layoutX="115.0" layoutY="337.0" mnemonicParsing="false" onAction="#onAction" prefHeight="39.0" prefWidth="134.0" text="Save changes" />
    </children>
 </Pane>

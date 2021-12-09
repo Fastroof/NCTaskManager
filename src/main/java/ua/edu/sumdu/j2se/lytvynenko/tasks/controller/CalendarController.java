@@ -3,11 +3,8 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -15,7 +12,6 @@ import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Tasks;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -27,14 +23,9 @@ import java.util.*;
 public class CalendarController implements Initializable {
 
     public void switchToMainMenu(ActionEvent event) throws IOException {
-        URL sceneUrl = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/view/main_menu.fxml")
-                .toURI().toURL();
-        Parent root = FXMLLoader.load(sceneUrl);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setTitle("NCTaskManager:MainMenu");
-        stage.setScene(scene);
-        stage.show();
+        JavaFXFunctions fxFunctions = new JavaFXFunctions();
+        fxFunctions.switchTo("main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                "NCTaskManager:MainMenu", true);
     }
 
     @FXML private TableView<SortedMap.Entry<LocalDateTime, Set<Task>>> calendarTableView;
