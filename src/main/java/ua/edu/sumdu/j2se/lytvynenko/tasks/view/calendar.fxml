@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.edu.sumdu.j2se.lytvynenko.tasks.controller.CalendarController">
+  <children>
+    <TableView fx:id="calendarTableView" blendMode="SRC_OVER" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="572.0">
+      <columns>
+        <TableColumn fx:id="timeColumn" editable="false" prefWidth="290.0" resizable="false" text="Time" />
+        <TableColumn fx:id="titlesColumn" editable="false" prefWidth="281.0" resizable="false" text="Title" />
+      </columns>
+    </TableView>
+    <Button layoutX="14.0" layoutY="359.0" mnemonicParsing="false" onAction="#switchToMainMenu" prefWidth="108.0" text="Back" />
+  </children>
+</AnchorPane>
