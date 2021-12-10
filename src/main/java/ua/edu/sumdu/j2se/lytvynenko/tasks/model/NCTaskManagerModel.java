@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks.model;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
@@ -24,7 +25,8 @@ public class NCTaskManagerModel {
     public static String getCalendarForNextMinuteString() {
         SortedMap<LocalDateTime, Set<Task>> map = Tasks.calendar(tasks, LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
         return map.keySet().stream()
-                .map(key -> key.toLocalTime() + "\t" + map.get(key).stream().map(Task::getTitle).collect(Collectors.joining(", ")))
+                .map(key -> key.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\t"
+                        + map.get(key).stream().map(Task::getTitle).collect(Collectors.joining(", ")))
                 .collect(Collectors.joining("\n"));
     }
 
