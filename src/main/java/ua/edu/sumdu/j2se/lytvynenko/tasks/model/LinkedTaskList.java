@@ -12,8 +12,8 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable, Seria
     private int size = 0;
 
     /**
-     * Add the specified task to the list.
-     * @param task specified task
+     * Add the specified tasks to the list.
+     * @param task specified tasks
      */
     @Override
     public void add(Task task) {
@@ -33,7 +33,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable, Seria
     }
 
     /**
-     * Remove a task from the list and returns the truth if such a task was in the list.
+     * Remove a tasks from the list and returns the truth if such a tasks was in the list.
      * If there are several such tasks in the list, the method deletes the first one.
      */
     @Override

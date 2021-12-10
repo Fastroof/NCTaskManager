@@ -23,7 +23,7 @@ public class Node implements Cloneable {
     @Override
     public String toString() {
         return "Node{" +
-                "task=" + task +
+                "tasks=" + task +
                 ", next=" + next +
                 ", prev=" + prev +
                 '}';

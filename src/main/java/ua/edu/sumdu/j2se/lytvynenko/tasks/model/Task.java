@@ -16,11 +16,11 @@ public class Task implements Cloneable, Serializable {
     private boolean repeat = false;
 
     /**
-     * A constructor that constructs an inactive task
+     * A constructor that constructs an inactive tasks
      * that runs at a specified time without repetition, with a given name.
      *
-     * @param title task name
-     * @param time task execution time
+     * @param title tasks name
+     * @param time tasks execution time
      */
     public Task(String title, LocalDateTime time) {
         if (title == null || time == null) {
@@ -31,11 +31,11 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * A constructor that constructs an inactive task
+     * A constructor that constructs an inactive tasks
      * that runs at a specified time (since start time to end time)
      * at a specified interval and has a specified name.
      *
-     * @param title task name
+     * @param title tasks name
      * @param start start time
      * @param end end time
      * @param interval repeat interval
@@ -68,16 +68,16 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Get the execution time of a task that is not repeated.
-     * If the task is repeated, the method returns the start time of the repetition.
+     * Get the execution time of a tasks that is not repeated.
+     * If the tasks is repeated, the method returns the start time of the repetition.
      */
     public LocalDateTime getTime() {
         return (repeat ? start : time);
     }
 
     /**
-     * Set the execution time of a task that is not repeated.
-     * If the task is repeated, it becomes non-repetitive.
+     * Set the execution time of a tasks that is not repeated.
+     * If the tasks is repeated, it becomes non-repetitive.
      */
     public void setTime(LocalDateTime time) {
         if (time == null) {
@@ -90,32 +90,32 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Get the start time of a task that is repeated.
-     * If the task is not repeated, the method returns the execution time.
+     * Get the start time of a tasks that is repeated.
+     * If the tasks is not repeated, the method returns the execution time.
      */
     public LocalDateTime getStartTime() {
         return (repeat ? start : time);
     }
 
     /**
-     * Get the end time of a task that is repeated.
-     * If the task is not repeated, the method returns the execution time.
+     * Get the end time of a tasks that is repeated.
+     * If the tasks is not repeated, the method returns the execution time.
      */
     public LocalDateTime getEndTime() {
         return (repeat ? end : time);
     }
 
     /**
-     * Get the repeat interval time of a task that is repeated.
-     * If the task is not repeated, the method returns 0.
+     * Get the repeat interval time of a tasks that is repeated.
+     * If the tasks is not repeated, the method returns 0.
      */
     public Duration getRepeatInterval() {
         return (repeat ? interval : Duration.ofSeconds(0));
     }
 
     /**
-     * Set the start, end, repeat interval time of a task that is repeated.
-     * If the task is not repeated, it becomes repeated.
+     * Set the start, end, repeat interval time of a tasks that is repeated.
+     * If the tasks is not repeated, it becomes repeated.
      */
     public void setTime(LocalDateTime start, LocalDateTime end, Duration interval) {
         if (start == null || end == null || !end.isAfter(start) || interval == null) {
@@ -135,8 +135,8 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Return the time of the next execution of the task after the current time.
-     * If after the specified time the task isn't executed, the method return null.
+     * Return the time of the next execution of the tasks after the current time.
+     * If after the specified time the tasks isn't executed, the method return null.
      */
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
         if (current == null) {
