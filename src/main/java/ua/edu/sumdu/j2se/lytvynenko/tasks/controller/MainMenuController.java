@@ -11,7 +11,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import ua.edu.sumdu.j2se.lytvynenko.tasks.model.*;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +23,7 @@ import java.util.*;
 public class MainMenuController implements Initializable {
 
     private static final JavaFXFunctions fxFunctions = new JavaFXFunctions();
+    private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
     public void switchToCalendar(ActionEvent event) throws IOException {
         fxFunctions.switchTo("fxml/calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
@@ -29,16 +33,16 @@ public class MainMenuController implements Initializable {
     public void switchToTaskCreator() throws IOException {
         Stage stage = new Stage();
         fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskCreator", false);
-        if (NCTaskManagerModel.getTasks().size() > allTasksTableView.getItems().size()) {
+        if (model.getTasks().size() > allTasksTableView.getItems().size()) {
             addTaskToTableView();
         }
     }
 
     private void switchToTaskEditor(Task item) throws IOException {
-        NCTaskManagerModel.setEditedTask(item);
+        model.setEditedTask(item);
         Stage stage = new Stage();
         fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskEditor", false);
-        NCTaskManagerModel.setEditedTask(null);
+        model.setEditedTask(null);
         reloadTableView();
     }
 
@@ -92,7 +96,7 @@ public class MainMenuController implements Initializable {
         });
         allTasksTableView.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.DELETE)) {
-                NCTaskManagerModel.deleteTask(allTasksTableView.getSelectionModel().getSelectedItem());
+                model.deleteTask(allTasksTableView.getSelectionModel().getSelectedItem());
                 reloadTableView();
             }
         });
@@ -100,11 +104,10 @@ public class MainMenuController implements Initializable {
     }
 
     private void reloadTableView() {
-        allTasksTableView.getItems().setAll(NCTaskManagerModel.getTasks().toArray());
+        allTasksTableView.getItems().setAll(model.getTasks().toArray());
     }
 
     private void addTaskToTableView() {
-        AbstractTaskList tasks = NCTaskManagerModel.getTasks();
-        allTasksTableView.getItems().add(tasks.getTask(tasks.size()-1));
+        allTasksTableView.getItems().add(model.getTasks().getTask(model.getTasks().size()-1));
     }
 }

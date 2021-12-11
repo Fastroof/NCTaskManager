@@ -10,8 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
-import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Tasks;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CalendarController implements Initializable {
+
+    private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
     public void switchToMainMenu(ActionEvent event) throws IOException {
         JavaFXFunctions fxFunctions = new JavaFXFunctions();
@@ -54,8 +56,7 @@ public class CalendarController implements Initializable {
         initializeCalendarTableColumns();
         LocalDateTime from = LocalDate.now().with(DayOfWeek.MONDAY).atTime(0,0,0,0);
         LocalDateTime to = from.plusDays(7).minusSeconds(1);
-        SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(NCTaskManagerModel.getTasks(), from, to);
-        calendarTableView.getItems().setAll(sortedMap.entrySet());
+        calendarTableView.getItems().setAll(model.getCalendar(from, to).entrySet());
     }
 
     @FXML private DatePicker fromDatePicker;
@@ -65,8 +66,7 @@ public class CalendarController implements Initializable {
         try {
             LocalDateTime from = fromDatePicker.getValue().atTime(0,0,0);
             LocalDateTime to = toDatePicker.getValue().atTime(23,59,59);
-            SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(NCTaskManagerModel.getTasks(), from, to);
-            calendarTableView.getItems().setAll(sortedMap.entrySet());
+            calendarTableView.getItems().setAll(model.getCalendar(from, to).entrySet());
         } catch (Exception e) {
             NotificationController.showErrorAlert("Wrong values of DataPickers", "Please select dates by clicking on the calendar icon");
         }

@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.lytvynenko.tasks.controller;
 
 import javafx.scene.control.Alert;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 
 import java.awt.*;
 import java.util.concurrent.Executors;
@@ -11,10 +12,11 @@ import java.util.concurrent.TimeUnit;
 public class NotificationController {
 
     private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
     public static void startCheckTasksThread() {
         executorService.scheduleAtFixedRate(() -> {
-            String currentTasks = NCTaskManagerModel.getCalendarForNextMinuteString();
+            String currentTasks = model.getCalendarForNextMinuteString();
             if (!currentTasks.isEmpty()) {
                 showNotification(currentTasks);
             }

@@ -12,6 +12,7 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
+import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
 
 import java.net.URL;
@@ -43,7 +44,9 @@ public class TaskCreatorEditorController implements Initializable {
 
     @FXML private CheckBox setActiveCheckBox;
     @FXML public Button eventButton;
+
     private final ValidationSupport vs = new ValidationSupport();
+    private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,7 +57,7 @@ public class TaskCreatorEditorController implements Initializable {
         vs.registerValidator(intervalMinutesTextField, Validator.createRegexValidator("Must be digit", "^\\d+$", Severity.ERROR));
         vs.registerValidator(intervalSecondsTextField, Validator.createRegexValidator("Must be digit", "^\\d+$", Severity.ERROR));
         vs.redecorate();
-        Task task = NCTaskManagerModel.getEditedTask();
+        Task task = model.getEditedTask();
         if (task != null) {
             titleTextField.setText(task.getTitle());
             startTimeDatePicker.setValue(task.getStartTime().toLocalDate());
@@ -131,12 +134,12 @@ public class TaskCreatorEditorController implements Initializable {
     }
 
     private void saveChanges(Task tempTask) {
-        NCTaskManagerModel.deleteTask(NCTaskManagerModel.getEditedTask());
-        NCTaskManagerModel.addTask(tempTask);
+        model.deleteTask(model.getEditedTask());
+        model.addTask(tempTask);
     }
 
     private void addNewTask(Task tempTask) {
-        NCTaskManagerModel.addTask(tempTask);
+        model.addTask(tempTask);
     }
 
     private LocalDateTime getLocalDateTimeFromElements(DatePicker dp, TextField tfH, TextField tfM, TextField tfS) {
