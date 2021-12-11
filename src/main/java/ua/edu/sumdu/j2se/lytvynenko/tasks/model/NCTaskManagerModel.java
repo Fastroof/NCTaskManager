@@ -19,4 +19,10 @@ public interface NCTaskManagerModel {
     Task getEditedTask();
 
     void setEditedTask(Task editedTask);
+
+    Task getTempTask();
+
+    void createTempTask(String title, LocalDateTime startTime);
+
+    void setTempTask(Task task);
 }

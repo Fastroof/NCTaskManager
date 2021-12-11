@@ -45,7 +45,7 @@ public class CalendarController implements Initializable {
                     for (Task task : param.getValue().getValue()) {
                         titleList.add(task.getTitle());
                     }
-                    return new SimpleStringProperty(String.join(",", titleList));
+                    return new SimpleStringProperty(String.join(", ", titleList));
                 });
     }
 

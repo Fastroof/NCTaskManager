@@ -13,7 +13,6 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
-import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
 
 import java.net.URL;
 import java.time.Duration;
@@ -57,23 +56,22 @@ public class TaskCreatorEditorController implements Initializable {
         vs.registerValidator(intervalMinutesTextField, Validator.createRegexValidator("Must be digit", "^\\d+$", Severity.ERROR));
         vs.registerValidator(intervalSecondsTextField, Validator.createRegexValidator("Must be digit", "^\\d+$", Severity.ERROR));
         vs.redecorate();
-        Task task = model.getEditedTask();
-        if (task != null) {
-            titleTextField.setText(task.getTitle());
-            startTimeDatePicker.setValue(task.getStartTime().toLocalDate());
-            LocalTime startLocalTime = task.getStartTime().toLocalTime();
+        if (model.getEditedTask() != null) {
+            titleTextField.setText(model.getEditedTask().getTitle());
+            startTimeDatePicker.setValue(model.getEditedTask().getStartTime().toLocalDate());
+            LocalTime startLocalTime = model.getEditedTask().getStartTime().toLocalTime();
             startTimeHoursTextField.setText(String.valueOf(startLocalTime.getHour()));
             startTimeMinutesTextField.setText(String.valueOf(startLocalTime.getMinute()));
             startTimeSecondsTextField.setText(String.valueOf(startLocalTime.getSecond()));
-            if (task.isRepeated()) {
+            if (model.getEditedTask().isRepeated()) {
                 setRepeatableCheckBox.setSelected(true);
                 setRepeatable();
-                endTimeDatePicker.setValue(task.getEndTime().toLocalDate());
-                LocalTime endLocalTime = task.getEndTime().toLocalTime();
+                endTimeDatePicker.setValue(model.getEditedTask().getEndTime().toLocalDate());
+                LocalTime endLocalTime = model.getEditedTask().getEndTime().toLocalTime();
                 endTimeHoursTextField.setText(String.valueOf(endLocalTime.getHour()));
                 endTimeMinutesTextField.setText(String.valueOf(endLocalTime.getMinute()));
                 endTimeSecondsTextField.setText(String.valueOf(endLocalTime.getSecond()));
-                long interval = task.getRepeatInterval().getSeconds();
+                long interval = model.getEditedTask().getRepeatInterval().getSeconds();
                 String hour = String.valueOf((int) (interval / 3600));
                 String minute = String.valueOf((int) (interval / 60));
                 String second = String.valueOf(interval % 60);
@@ -81,7 +79,7 @@ public class TaskCreatorEditorController implements Initializable {
                 intervalMinutesTextField.setText(minute);
                 intervalSecondsTextField.setText(second);
             }
-            setActiveCheckBox.setSelected(task.isActive());
+            setActiveCheckBox.setSelected(model.getEditedTask().isActive());
         } else {
             eventButton.setText("Add new tasks");
         }
@@ -105,7 +103,7 @@ public class TaskCreatorEditorController implements Initializable {
             }
             LocalDateTime startTime = getLocalDateTimeFromElements(startTimeDatePicker, startTimeHoursTextField,
                     startTimeMinutesTextField, startTimeSecondsTextField);
-            Task tempTask = new Task(title, startTime);
+            model.createTempTask(title, startTime);
             if (setRepeatableCheckBox.isSelected()) {
                 LocalDateTime endTime = getLocalDateTimeFromElements(endTimeDatePicker, endTimeHoursTextField,
                         endTimeMinutesTextField, endTimeSecondsTextField);
@@ -116,14 +114,16 @@ public class TaskCreatorEditorController implements Initializable {
                 if (interval.isZero()) {
                     throw new IllegalArgumentException("Wrong interval");
                 }
-                tempTask.setTime(startTime, endTime, interval);
+                model.getTempTask().setTime(startTime, endTime, interval);
             }
-            tempTask.setActive(setActiveCheckBox.isSelected());
+            model.getTempTask().setActive(setActiveCheckBox.isSelected());
             if (eventButton.getText().equals("Add new tasks")) {
-                addNewTask(tempTask);
+                model.addTask(model.getTempTask());
             } else {
-                saveChanges(tempTask);
+                model.deleteTask(model.getEditedTask());
+                model.addTask(model.getTempTask());
             }
+            model.setTempTask(null);
             Stage stage = (Stage) eventButton.getScene().getWindow();
             stage.close();
         } catch (Exception e) {
@@ -131,15 +131,6 @@ public class TaskCreatorEditorController implements Initializable {
                     + "To do this, point at the red circle with the cross"
             );
         }
-    }
-
-    private void saveChanges(Task tempTask) {
-        model.deleteTask(model.getEditedTask());
-        model.addTask(tempTask);
-    }
-
-    private void addNewTask(Task tempTask) {
-        model.addTask(tempTask);
     }
 
     private LocalDateTime getLocalDateTimeFromElements(DatePicker dp, TextField tfH, TextField tfM, TextField tfS) {

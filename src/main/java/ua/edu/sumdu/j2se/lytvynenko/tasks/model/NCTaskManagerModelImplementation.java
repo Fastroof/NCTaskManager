@@ -73,4 +73,18 @@ public class NCTaskManagerModelImplementation implements NCTaskManagerModel {
     public void setEditedTask(Task editedTask) {
         this.editedTask = editedTask;
     }
+
+    private Task tempTask;
+
+    public Task getTempTask() {
+        return tempTask;
+    }
+
+    public void createTempTask(String title, LocalDateTime startTime) {
+        tempTask = new Task(title, startTime);
+    }
+
+    public void setTempTask(Task task) {
+        tempTask = task;
+    }
 }
