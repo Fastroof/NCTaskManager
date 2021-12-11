@@ -1,24 +1,26 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks.model;
 
 import java.io.File;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 public class NCTaskManagerModel {
-    private static AbstractTaskList tasks = parseTasks();
+    private static final AbstractTaskList tasks = parseTasks();
 
     private static AbstractTaskList parseTasks() {
         AbstractTaskList result = new ArrayTaskList();
-        File parseFile = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/saves/savedTasks");
-        TaskIO.readBinary(result, parseFile);
+        InputStream is = NCTaskManagerModel.class.getClassLoader().getResourceAsStream("save/savedTasks");
+        TaskIO.read(result, is);
         return result;
     }
 
     private static void saveTasks() {
-        File saveFile = new File("src/main/java/ua/edu/sumdu/j2se/lytvynenko/tasks/saves/savedTasks");
+        File saveFile = new File(Objects.requireNonNull(NCTaskManagerModel.class.getClassLoader().getResource("save/savedTasks")).getPath());
         TaskIO.writeBinary(tasks,saveFile);
     }
 

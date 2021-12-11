@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0"
+      prefWidth="364.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.edu.sumdu.j2se.lytvynenko.tasks.controller.TaskCreatorEditorController">
+   <VBox layoutX="12.0" layoutY="12.0" prefHeight="325.0" prefWidth="340.0">
+      <VBox prefHeight="60.0" prefWidth="260.0">
+         <Label text="Title*"/>
+         <TextField fx:id="titleTextField" prefHeight="31.0" prefWidth="183.0"/>
+      </VBox>
+      <VBox prefHeight="60.0" prefWidth="370.0">
+         <Label text="Time (start time)*"/>
+         <HBox>
+            <DatePicker fx:id="startTimeDatePicker" prefHeight="31.0" prefWidth="190.0"/>
+            <HBox alignment="CENTER" prefHeight="31.0" prefWidth="209.0">
+               <TextField fx:id="startTimeHoursTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="36.0" text="0"/>
+               <Label prefHeight="53.0" prefWidth="18.0" text="h"/>
+               <TextField fx:id="startTimeMinutesTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="36.0" text="0"/>
+               <Label prefHeight="64.0" prefWidth="19.0" text="m"/>
+               <TextField fx:id="startTimeSecondsTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="36.0" text="0"/>
+               <Label prefHeight="105.0" prefWidth="19.0" text="s"/>
+            </HBox>
+         </HBox>
+      </VBox>
+      <CheckBox fx:id="setRepeatableCheckBox" mnemonicParsing="false" onAction="#setRepeatable" prefHeight="40.0"
+                prefWidth="132.0" text="Set repeatable"/>
+      <VBox fx:id="endTimeAndIntervalVBox" disable="true" prefHeight="120.0" prefWidth="260.0">
+         <VBox prefHeight="60.0" prefWidth="260.0">
+            <Label text="End time*"/>
+            <HBox>
+               <DatePicker fx:id="endTimeDatePicker" prefHeight="31.0" prefWidth="190.0"/>
+               <HBox alignment="CENTER" prefHeight="31.0" prefWidth="209.0">
+                  <TextField fx:id="endTimeHoursTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                             prefWidth="36.0" text="0"/>
+                  <Label prefHeight="53.0" prefWidth="18.0" text="h"/>
+                  <TextField fx:id="endTimeMinutesTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                             prefWidth="36.0" text="0"/>
+                  <Label prefHeight="64.0" prefWidth="19.0" text="m"/>
+                  <TextField fx:id="endTimeSecondsTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                             prefWidth="36.0" text="0"/>
+                  <Label prefHeight="105.0" prefWidth="19.0" text="s"/>
+               </HBox>
+            </HBox>
+         </VBox>
+         <VBox prefHeight="60.0" prefWidth="260.0">
+            <Label text="Interval* (must be &gt; 0 seconds)"/>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <TextField fx:id="intervalHoursTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="70.0" text="0"/>
+               <Label prefHeight="53.0" prefWidth="18.0" text="h"/>
+               <TextField fx:id="intervalMinutesTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="70.0" text="0"/>
+               <Label prefHeight="64.0" prefWidth="19.0" text="m"/>
+               <TextField fx:id="intervalSecondsTextField" alignment="CENTER_RIGHT" prefHeight="31.0"
+                          prefWidth="70.0" text="0"/>
+               <Label prefHeight="105.0" prefWidth="19.0" text="s"/>
+            </HBox>
+         </VBox>
+      </VBox>
+      <CheckBox fx:id="setActiveCheckBox" mnemonicParsing="false" prefHeight="40.0" prefWidth="75.0" text="Active"/>
+   </VBox>
+   <Button fx:id="eventButton" layoutX="115.0" layoutY="337.0" mnemonicParsing="false" onAction="#onAction"
+           prefHeight="39.0" prefWidth="134.0" text="Save changes"/>
+</Pane>

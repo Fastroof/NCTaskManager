@@ -24,7 +24,7 @@ public class CalendarController implements Initializable {
 
     public void switchToMainMenu(ActionEvent event) throws IOException {
         JavaFXFunctions fxFunctions = new JavaFXFunctions();
-        fxFunctions.switchTo("main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+        fxFunctions.switchTo("fxml/main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:MainMenu", true);
     }
 

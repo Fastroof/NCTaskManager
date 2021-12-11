@@ -22,12 +22,12 @@ public class MainMenuController implements Initializable {
     private static final JavaFXFunctions fxFunctions = new JavaFXFunctions();
 
     public void switchToCalendar(ActionEvent event) throws IOException {
-        fxFunctions.switchTo("calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+        fxFunctions.switchTo("fxml/calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:Calendar", true);
     }
 
     public void switchToTaskCreator() throws IOException {
-        fxFunctions.switchTo("task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskCreator", false);
+        fxFunctions.switchTo("fxml/task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskCreator", false);
         if (NCTaskManagerModel.getTasks().size() > allTasksTableView.getItems().size()) {
             addTaskToTableView();
         }
@@ -35,7 +35,7 @@ public class MainMenuController implements Initializable {
 
     private void switchToTaskEditor(Task item) throws IOException {
         NCTaskManagerModel.setEditedTask(item);
-        fxFunctions.switchTo("task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskEditor", false);
+        fxFunctions.switchTo("fxml/task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskEditor", false);
         NCTaskManagerModel.setEditedTask(null);
         reloadTableView();
     }
