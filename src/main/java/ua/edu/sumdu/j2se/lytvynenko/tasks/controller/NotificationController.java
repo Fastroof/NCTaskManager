@@ -27,13 +27,14 @@ public class NotificationController {
         tray.remove(trayIcon);
     }
 
-    private static final Image image = Toolkit.getDefaultToolkit().createImage("img.png");
+    private static final Image image = Toolkit.getDefaultToolkit().getImage(NotificationController.class.getClassLoader().getResource("icon/logo.png"));
     private static final TrayIcon trayIcon = new TrayIcon(image, "NCTaskManager");
     private static boolean initialization;
 
     private static void showNotification(String text) {
         if (!initialization) {
             SystemTray tray = SystemTray.getSystemTray();
+            trayIcon.setImageAutoSize(true);
             try {
                 tray.add(trayIcon);
             } catch (AWTException e) {

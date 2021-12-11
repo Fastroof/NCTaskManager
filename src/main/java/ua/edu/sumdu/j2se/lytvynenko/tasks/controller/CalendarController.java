@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -55,5 +56,19 @@ public class CalendarController implements Initializable {
         LocalDateTime to = from.plusDays(7).minusSeconds(1);
         SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(NCTaskManagerModel.getTasks(), from, to);
         calendarTableView.getItems().setAll(sortedMap.entrySet());
+    }
+
+    @FXML private DatePicker fromDatePicker;
+    @FXML private DatePicker toDatePicker;
+
+    public void showCalendar() {
+        try {
+            LocalDateTime from = fromDatePicker.getValue().atTime(0,0,0);
+            LocalDateTime to = toDatePicker.getValue().atTime(23,59,59);
+            SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(NCTaskManagerModel.getTasks(), from, to);
+            calendarTableView.getItems().setAll(sortedMap.entrySet());
+        } catch (Exception e) {
+            NotificationController.showErrorAlert("Wrong values of DataPickers", "Please select dates by clicking on the calendar icon");
+        }
     }
 }

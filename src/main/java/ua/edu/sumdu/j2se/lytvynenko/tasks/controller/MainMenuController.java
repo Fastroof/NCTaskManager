@@ -27,7 +27,8 @@ public class MainMenuController implements Initializable {
     }
 
     public void switchToTaskCreator() throws IOException {
-        fxFunctions.switchTo("fxml/task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskCreator", false);
+        Stage stage = new Stage();
+        fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskCreator", false);
         if (NCTaskManagerModel.getTasks().size() > allTasksTableView.getItems().size()) {
             addTaskToTableView();
         }
@@ -35,7 +36,8 @@ public class MainMenuController implements Initializable {
 
     private void switchToTaskEditor(Task item) throws IOException {
         NCTaskManagerModel.setEditedTask(item);
-        fxFunctions.switchTo("fxml/task_creator_editor.fxml", new Stage(), "NCTaskManager:TaskEditor", false);
+        Stage stage = new Stage();
+        fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskEditor", false);
         NCTaskManagerModel.setEditedTask(null);
         reloadTableView();
     }
@@ -94,7 +96,7 @@ public class MainMenuController implements Initializable {
                 reloadTableView();
             }
         });
-        allTasksTableView.getItems().setAll(NCTaskManagerModel.getTasks().toArray());
+        reloadTableView();
     }
 
     private void reloadTableView() {
