@@ -15,33 +15,31 @@ import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MainMenuController implements Initializable {
 
-    private static final JavaFXFunctions fxFunctions = new JavaFXFunctions();
     private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
-    public void switchToCalendar(ActionEvent event) throws IOException {
-        fxFunctions.switchTo("fxml/calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+    public void switchToCalendar(ActionEvent event) {
+        JavaFXFunctions.switchTo("views/calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:Calendar", true);
     }
 
-    public void switchToTaskCreator() throws IOException {
+    public void switchToTaskCreator() {
         Stage stage = new Stage();
-        fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskCreator", false);
+        JavaFXFunctions.switchTo("views/task_manager.fxml", stage, "TaskCreator", false);
         if (model.getTasks().size() > allTasksTableView.getItems().size()) {
             addTaskToTableView();
         }
     }
 
-    private void switchToTaskEditor(Task item) throws IOException {
+    private void switchToTaskEditor(Task item) {
         model.setEditedTask(item);
         Stage stage = new Stage();
-        fxFunctions.switchTo("fxml/task_manager.fxml", stage, "TaskEditor", false);
+        JavaFXFunctions.switchTo("views/task_manager.fxml", stage, "TaskEditor", false);
         model.setEditedTask(null);
         reloadTableView();
     }
@@ -85,11 +83,7 @@ public class MainMenuController implements Initializable {
             TableRow<Task> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
-                    try {
-                        switchToTaskEditor(row.getItem());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    switchToTaskEditor(row.getItem());
                 }
             });
             return row;

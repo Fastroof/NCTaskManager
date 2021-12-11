@@ -13,7 +13,6 @@ import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.Task;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,9 +24,8 @@ public class CalendarController implements Initializable {
 
     private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        JavaFXFunctions fxFunctions = new JavaFXFunctions();
-        fxFunctions.switchTo("fxml/main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+    public void switchToMainMenu(ActionEvent event) {
+        JavaFXFunctions.switchTo("views/main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:MainMenu", true);
     }
 

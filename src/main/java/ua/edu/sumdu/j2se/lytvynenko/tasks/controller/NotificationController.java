@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks.controller;
 
 import javafx.scene.control.Alert;
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModel;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.model.NCTaskManagerModelImplementation;
 
@@ -11,10 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 public class NotificationController {
 
+    private static final Logger log = Logger.getLogger(NotificationController.class);
     private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
     public static void startCheckTasksThread() {
+        log.info("Start notification manager");
         executorService.scheduleAtFixedRate(() -> {
             String currentTasks = model.getCalendarForNextMinuteString();
             if (!currentTasks.isEmpty()) {
@@ -27,6 +30,7 @@ public class NotificationController {
         executorService.shutdownNow();
         SystemTray tray = SystemTray.getSystemTray();
         tray.remove(trayIcon);
+        log.info("Stop notification manager");
     }
 
     private static final Image image = Toolkit.getDefaultToolkit().getImage(NotificationController.class.getClassLoader().getResource("icon/logo.png"));
@@ -40,7 +44,7 @@ public class NotificationController {
             try {
                 tray.add(trayIcon);
             } catch (AWTException e) {
-                e.printStackTrace();
+                log.fatal(e.getStackTrace());
             }
             initialization = true;
         }
