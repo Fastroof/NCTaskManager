@@ -1,6 +1,9 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks.model;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +13,8 @@ import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 public class NCTaskManagerModelImplementation implements NCTaskManagerModel {
+
+    private static final Logger log = Logger.getLogger(NCTaskManagerModelImplementation.class);
 
     private static NCTaskManagerModelImplementation instance;
     private final AbstractTaskList tasks;
@@ -25,16 +30,28 @@ public class NCTaskManagerModelImplementation implements NCTaskManagerModel {
         return instance;
     }
 
+    private File getSaveFile() {
+        File file = new File("./savedTasks");
+        try {
+            if (file.createNewFile()) {
+                log.info("Files for saves created");
+            } else {
+                log.info("File for saves got");
+            }
+        } catch (IOException e) {
+            log.fatal(e.getStackTrace());
+        }
+        return file;
+    }
+
     private AbstractTaskList parseTasks() {
         AbstractTaskList result = new ArrayTaskList();
-        InputStream is = NCTaskManagerModel.class.getClassLoader().getResourceAsStream("save/savedTasks");
-        TaskIO.read(result, is);
+        TaskIO.readBinary(result, getSaveFile());
         return result;
     }
 
     private void saveTasks() {
-        File saveFile = new File(Objects.requireNonNull(NCTaskManagerModel.class.getClassLoader().getResource("save/savedTasks")).getPath());
-        TaskIO.writeBinary(tasks,saveFile);
+        TaskIO.writeBinary(tasks, getSaveFile());
     }
 
     public String getCalendarForNextMinuteString() {
