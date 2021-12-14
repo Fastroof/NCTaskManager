@@ -33,7 +33,7 @@ public class JavaFXFunctions {
                 stage.showAndWait();
             }
         } catch (IOException e) {
-            log.fatal(e.getStackTrace());
+            log.error("Switching failed", e);
         }
     }
 }

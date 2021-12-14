@@ -44,7 +44,7 @@ public class NotificationController {
             try {
                 tray.add(trayIcon);
             } catch (AWTException e) {
-                log.fatal(e.getStackTrace());
+                log.error("Adding trayIcon failed", e);
             }
             initialization = true;
         }

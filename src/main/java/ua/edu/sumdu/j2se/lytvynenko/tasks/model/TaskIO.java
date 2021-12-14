@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.lytvynenko.tasks.model;
 
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.time.Duration;
@@ -8,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class TaskIO {
+
+    private static final Logger log = Logger.getLogger(TaskIO.class);
 
     public static void write(AbstractTaskList tasks, OutputStream out) {
         if (out == null) {
@@ -29,7 +32,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Binary write to OutputStream failed", e);
         }
     }
 
@@ -63,7 +66,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Binary read from InputStream failed", e);
         }
     }
 
@@ -71,7 +74,7 @@ public class TaskIO {
         try (OutputStream outputStream = new FileOutputStream(file)) {
             write(tasks, outputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Binary write to file failed", e);
         }
     }
 
@@ -82,7 +85,7 @@ public class TaskIO {
             try (InputStream inputStream = new FileInputStream(file)) {
                 read(tasks, inputStream);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Binary read from file failed", e);
             }
         }
     }
@@ -104,7 +107,7 @@ public class TaskIO {
         try (Writer writer = new FileWriter(file)) {
             write(tasks, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Text write to file failed", e);
         }
     }
 
@@ -112,7 +115,7 @@ public class TaskIO {
         try (Reader reader = new FileReader(file)) {
             read(tasks, reader);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Text read from file failed", e);
         }
     }
 }
