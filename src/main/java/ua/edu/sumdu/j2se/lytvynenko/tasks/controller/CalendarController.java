@@ -59,6 +59,7 @@ public class CalendarController implements Initializable {
 
     @FXML private DatePicker fromDatePicker;
     @FXML private DatePicker toDatePicker;
+    private final NotificationController notificationController = NotificationController.getInstance();
 
     public void showCalendar() {
         try {
@@ -66,7 +67,7 @@ public class CalendarController implements Initializable {
             LocalDateTime to = toDatePicker.getValue().atTime(23,59,59);
             calendarTableView.getItems().setAll(model.getCalendar(from, to).entrySet());
         } catch (Exception e) {
-            NotificationController.showErrorAlert("Wrong values of DataPickers", "Please select dates by clicking on the calendar icon");
+            notificationController.showErrorAlert("Wrong values of DataPickers", "Please select dates by clicking on the calendar icon");
         }
     }
 }

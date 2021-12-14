@@ -46,6 +46,7 @@ public class TaskCreatorEditorController implements Initializable {
 
     private final ValidationSupport vs = new ValidationSupport();
     private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
+    private final NotificationController notificationController = NotificationController.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -127,7 +128,7 @@ public class TaskCreatorEditorController implements Initializable {
             Stage stage = (Stage) eventButton.getScene().getWindow();
             stage.close();
         } catch (Exception e) {
-            NotificationController.showErrorAlert("Wrong values of fields","Check the validation conditions.\n"
+            notificationController.showErrorAlert("Wrong values of fields","Check the validation conditions.\n"
                     + "To do this, point at the red circle with the cross"
             );
         }

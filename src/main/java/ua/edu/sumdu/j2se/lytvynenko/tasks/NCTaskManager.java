@@ -9,14 +9,15 @@ import org.apache.log4j.Logger;
 public class NCTaskManager extends Application {
 
     private static final Logger log = Logger.getLogger(NCTaskManager.class);
+    private static final NotificationController notificationController = NotificationController.getInstance();
 
     public static void main(String[] args) {
         log.info("Running program ...");
-        NotificationController.startCheckTasksThread();
+        notificationController.startCheckTasksThread();
         log.info("Launch NCTaskManager");
         launch(args);
         log.info("NCTaskManager closed");
-        NotificationController.stopCheckTasksThread();
+        notificationController.stopCheckTasksThread();
         log.info("The program is finished");
     }
 

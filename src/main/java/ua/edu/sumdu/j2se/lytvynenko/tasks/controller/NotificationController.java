@@ -12,11 +12,22 @@ import java.util.concurrent.TimeUnit;
 
 public class NotificationController {
 
-    private static final Logger log = Logger.getLogger(NotificationController.class);
-    private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-    private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
+    private static NotificationController instance;
 
-    public static void startCheckTasksThread() {
+    private NotificationController() {}
+
+    public static NotificationController getInstance() {
+        if (instance == null) {
+            instance = new NotificationController();
+        }
+        return instance;
+    }
+
+    private final Logger log = Logger.getLogger(NotificationController.class);
+    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
+
+    public void startCheckTasksThread() {
         log.info("Start notification manager");
         executorService.scheduleAtFixedRate(() -> {
             String currentTasks = model.getCalendarForNextMinuteString();
@@ -26,18 +37,18 @@ public class NotificationController {
         }, 0, 30, TimeUnit.SECONDS);
     }
 
-    public static void stopCheckTasksThread() {
+    public void stopCheckTasksThread() {
         executorService.shutdownNow();
         SystemTray tray = SystemTray.getSystemTray();
         tray.remove(trayIcon);
         log.info("Stop notification manager");
     }
 
-    private static final Image image = Toolkit.getDefaultToolkit().getImage(NotificationController.class.getClassLoader().getResource("icon/logo.png"));
-    private static final TrayIcon trayIcon = new TrayIcon(image, "NCTaskManager");
-    private static boolean initialization;
+    private final Image image = Toolkit.getDefaultToolkit().getImage(NotificationController.class.getClassLoader().getResource("icon/logo.png"));
+    private final TrayIcon trayIcon = new TrayIcon(image, "NCTaskManager");
+    private boolean initialization;
 
-    private static void showNotification(String text) {
+    private void showNotification(String text) {
         if (!initialization) {
             SystemTray tray = SystemTray.getSystemTray();
             trayIcon.setImageAutoSize(true);
@@ -67,7 +78,7 @@ public class NotificationController {
         }
     }
 
-    public static void showErrorAlert(String title, String text) {
+    public void showErrorAlert(String title, String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR");
         alert.setHeaderText(title);
