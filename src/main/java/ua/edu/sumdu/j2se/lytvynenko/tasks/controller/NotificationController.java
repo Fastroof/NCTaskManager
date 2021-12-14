@@ -23,7 +23,7 @@ public class NotificationController {
             if (!currentTasks.isEmpty()) {
                 showNotification(currentTasks);
             }
-        }, 0, 60, TimeUnit.SECONDS);
+        }, 0, 30, TimeUnit.SECONDS);
     }
 
     public static void stopCheckTasksThread() {
