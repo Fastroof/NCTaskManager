@@ -80,7 +80,7 @@ public class TaskIO {
 
     public static void readBinary(AbstractTaskList tasks, File file) {
         if (file.length() == 0) {
-            System.out.println("File is empty");
+            log.info("Read file is empty");
         } else {
             try (InputStream inputStream = new FileInputStream(file)) {
                 read(tasks, inputStream);
