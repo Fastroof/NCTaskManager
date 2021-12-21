@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains the model methods and variables for working in the application.
+ */
 public class NCTaskManagerModelImplementation implements NCTaskManagerModel {
 
     private static final Logger log = Logger.getLogger(NCTaskManagerModelImplementation.class);
@@ -52,7 +55,7 @@ public class NCTaskManagerModelImplementation implements NCTaskManagerModel {
         TaskIO.writeBinary(tasks, getSaveFile());
     }
 
-    public String getCalendarForNextMinuteString() {
+    public String getCalendarForNextSomeTimeString() {
         SortedMap<LocalDateTime, Set<Task>> map = Tasks.calendar(tasks, LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
         return map.keySet().stream()
                 .map(key -> key.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\t"

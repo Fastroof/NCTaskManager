@@ -19,15 +19,27 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * This class is the controller for the main_menu.fxml view.
+ */
 public class MainMenuController implements Initializable {
 
     private static final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
+    /**
+     * This method changes the scene to the calendar when button was clicked
+     *
+     * @param event button click event
+     */
     public void switchToCalendar(ActionEvent event) {
         JavaFXFunctions.switchTo("views/calendar.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:Calendar", true);
     }
 
+    /**
+     * This method create new stage and show scene for creating new task.
+     * If everything went well, adds a new task to the end of the table on the main menu.
+     */
     public void switchToTaskCreator() {
         Stage stage = new Stage();
         JavaFXFunctions.switchTo("views/task_manager.fxml", stage, "TaskCreator", false);
@@ -36,6 +48,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     * This method create new stage and show scene for editing the task.
+     * If everything went well, reload table view.
+     */
     private void switchToTaskEditor(Task item) {
         model.setEditedTask(item);
         Stage stage = new Stage();
@@ -50,6 +66,9 @@ public class MainMenuController implements Initializable {
     @FXML private TableColumn<Task, String> taskTitleColumn;
     @FXML private TableColumn<Task, Boolean> taskActiveColumn;
 
+    /**
+     * This method initialize main menu table columns for correct display.
+     */
     private void initializeMainMenuTableColumns() {
         taskTimeColumn.setCellValueFactory(
                 param -> {
@@ -97,10 +116,16 @@ public class MainMenuController implements Initializable {
         reloadTableView();
     }
 
+    /**
+     * This method reload table on the scene for update to the current state of the task list.
+     */
     private void reloadTableView() {
         allTasksTableView.getItems().setAll(model.getTasks().toArray());
     }
 
+    /**
+     * This method add new task to table on the scene.
+     */
     private void addTaskToTableView() {
         allTasksTableView.getItems().add(model.getTasks().getTask(model.getTasks().size()-1));
     }

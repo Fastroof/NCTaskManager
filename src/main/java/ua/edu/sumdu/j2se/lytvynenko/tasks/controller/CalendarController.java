@@ -20,10 +20,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * This class is the controller for the calendar.fxml view.
+ */
 public class CalendarController implements Initializable {
 
     private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
+    /**
+     * This method changes the scene to the main menu when button was clicked
+     *
+     * @param event button click event
+     */
     public void switchToMainMenu(ActionEvent event) {
         JavaFXFunctions.switchTo("views/main_menu.fxml", (Stage) ((Node) event.getSource()).getScene().getWindow(),
                 "NCTaskManager:MainMenu", true);
@@ -33,6 +41,9 @@ public class CalendarController implements Initializable {
     @FXML private TableColumn<SortedMap.Entry<LocalDateTime, Set<Task>>, String> timeColumn;
     @FXML private TableColumn<SortedMap.Entry<LocalDateTime, Set<Task>>, String> titlesColumn;
 
+    /**
+     * This method initialize calendar table columns for correct display.
+     */
     private void initializeCalendarTableColumns() {
         timeColumn.setCellValueFactory(
                 param -> {
@@ -61,6 +72,10 @@ public class CalendarController implements Initializable {
     @FXML private DatePicker toDatePicker;
     private final NotificationController notificationController = NotificationController.getInstance();
 
+    /**
+     * This method changes the calendar in the table on stage.
+     * If an error occurs, then it raises a notification about it.
+     */
     public void showCalendar() {
         try {
             LocalDateTime from = fromDatePicker.getValue().atTime(0,0,0);

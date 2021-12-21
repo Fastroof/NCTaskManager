@@ -10,6 +10,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class creates a thread that checks the arrival of the task.
+ * It also shows an error notification.
+ */
 public class NotificationController {
 
     private static NotificationController instance;
@@ -27,16 +31,22 @@ public class NotificationController {
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final NCTaskManagerModel model = NCTaskManagerModelImplementation.getInstance();
 
+    /**
+     * This method run the thread for checking incoming tasks
+     */
     public void startCheckTasksThread() {
         log.info("Start notification manager");
         executorService.scheduleAtFixedRate(() -> {
-            String currentTasks = model.getCalendarForNextMinuteString();
+            String currentTasks = model.getCalendarForNextSomeTimeString();
             if (!currentTasks.isEmpty()) {
                 showNotification(currentTasks);
             }
         }, 0, 30, TimeUnit.SECONDS);
     }
 
+    /**
+     * This method stop the thread for checking incoming tasks
+     */
     public void stopCheckTasksThread() {
         executorService.shutdownNow();
         SystemTray tray = SystemTray.getSystemTray();
@@ -48,6 +58,11 @@ public class NotificationController {
     private final TrayIcon trayIcon = new TrayIcon(image, "NCTaskManager");
     private boolean initialization;
 
+    /**
+     * This method show notification about incoming tasks
+     *
+     * @param text list of incoming tasks as a string
+     */
     private void showNotification(String text) {
         if (!initialization) {
             SystemTray tray = SystemTray.getSystemTray();
@@ -78,6 +93,12 @@ public class NotificationController {
         }
     }
 
+    /**
+     * This method show error alert.
+     *
+     * @param title title of alert
+     * @param text text of alert
+     */
     public void showErrorAlert(String title, String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR");

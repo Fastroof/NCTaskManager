@@ -20,6 +20,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller for the task_manager.fxml view.
+ */
 public class TaskCreatorEditorController implements Initializable {
 
     @FXML private TextField titleTextField;
@@ -96,6 +99,9 @@ public class TaskCreatorEditorController implements Initializable {
                 "Second must be from 0 to 59", "^[0-5]?[0-9]$", Severity.ERROR));
     }
 
+    /**
+     * This method processes all the required fields, pickers when the button is clicked
+     */
     public void onAction() {
         try {
             String title = titleTextField.getText();
@@ -141,6 +147,9 @@ public class TaskCreatorEditorController implements Initializable {
         return dp.getValue().atTime(tH, tM, tS);
     }
 
+    /**
+     * Make fields available for a recurring task
+     */
     public void setRepeatable() {
         endTimeAndIntervalVBox.setDisable(!setRepeatableCheckBox.isSelected());
     }

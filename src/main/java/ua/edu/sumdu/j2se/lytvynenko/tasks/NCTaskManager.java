@@ -6,6 +6,9 @@ import ua.edu.sumdu.j2se.lytvynenko.tasks.controller.JavaFXFunctions;
 import ua.edu.sumdu.j2se.lytvynenko.tasks.controller.NotificationController;
 import org.apache.log4j.Logger;
 
+/**
+ * This is main class of project. Run NotificationManager and launch view window.
+ */
 public class NCTaskManager extends Application {
 
     private static final Logger log = Logger.getLogger(NCTaskManager.class);
